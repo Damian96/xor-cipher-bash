@@ -22,9 +22,9 @@ ordbin() {
 
 # convert ASCII text to binary
 ascii2bin() {
-    echo -n $* | while IFS= read -r -n1 char
+    echo -n "$*" | while IFS= read -r -n1 char
     do
-        ordbin $char | tr -d '\n'
+        ordbin "$char" | tr -d '\n'
         echo -n " "
     done
 }
@@ -33,7 +33,7 @@ ascii2bin() {
 bin2ascii() {
     for bin in $*
     do
-        chrbin $bin | tr -d '\n'
+        chrbin "$bin" | tr -d '\n'
     done
 }
 
@@ -59,8 +59,8 @@ trim() {
 }
 
 xor() {
-    local plaintext=($(text2ascii $1))
-    local key=($(text2ascii $2))
+    local plaintext=($(text2ascii "$1"))
+    local key=($(text2ascii "$2"))
     keysize=${#key[@]}
     local input_size=${#plaintext[@]}
     local cipher=""
@@ -71,7 +71,7 @@ xor() {
     done
     
     # output the cipher in decimal format
-    echo -e $cipher
+    echo -e "$cipher"
 }
 
 # test: https://www.browserling.com/tools/text-to-ascii
@@ -83,8 +83,8 @@ text2ascii() {
     echo -e ${str[@]}
 }
 
-printf "%s %s\n" "Plaintext is:" $1
-printf "%s %s\n" "Key is:" $2
-cipher="$(xor $1 $2)"
-printf "%s %s\n" "The cipher is (decimal):" $cipher
+printf "%s %s\n" "Plaintext is:" "$1"
+printf "%s %s\n" "Key is:" "$2"
+cipher="$(xor "$1" "$2")"
+printf "%s %s\n" "The cipher is (decimal):" "$cipher"
 exit 0
